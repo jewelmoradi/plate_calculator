@@ -10,7 +10,7 @@ class GalleryScreen extends StatefulWidget {
 }
 
 class _GalleryScreenState extends State<GalleryScreen> {
-  File? _image;
+  File? _image; // the image can be null
 
   @override
   void initState() {
@@ -20,8 +20,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
 
   // Asynchronous function that waits for the user to select their picture from their device
   Future<void> pickGalleryImage() async {
-    final pickedFile = await ImagePicker().pickImage(
-        source: ImageSource.gallery);
+    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       setState(() {
