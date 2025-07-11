@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'dart:io';
-// import 'package:image_picker/image_picker.dart';
-
 import './gallery_screen.dart';
 import './camera_screen.dart';
 
@@ -9,14 +6,21 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Plate Calculator',
+      home: HomeScreen(),
+    );
+  }
 }
 
-class _MyAppState extends State<MyApp> {
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
   void openGallery(BuildContext context) {
     Navigator.push(
       context,
@@ -33,31 +37,28 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Plate Calculator'),
-        ),
-        body: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  textStyle: TextStyle(fontSize: 20),
-                ),
-                onPressed: () => openGallery(context),
-                child: const Text('Select from gallery'),
+    return Scaffold(
+      appBar: AppBar(title: Text('Plate Calculator')),
+      body: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                textStyle: TextStyle(fontSize: 20),
               ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  textStyle: TextStyle(fontSize: 20),
-                ),
-                onPressed: () => openCamera(context),
-                child: const Text('Take picture'),
+              onPressed: () => openGallery(context),
+              child: const Text('Select from gallery'),
+            ),
+            SizedBox(width: 20),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                textStyle: TextStyle(fontSize: 20),
               ),
-            ],
-          ),
+              onPressed: () => openCamera(context),
+              child: const Text('Take picture'),
+            ),
+          ],
         ),
       ),
     );
