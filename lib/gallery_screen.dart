@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class GalleryScreen extends StatefulWidget {
   const GalleryScreen({super.key});
@@ -12,6 +14,8 @@ class GalleryScreen extends StatefulWidget {
 
 class _GalleryScreenState extends State<GalleryScreen> {
   File? _image; // the image can be null
+  String _prediction = '';
+  bool _loading = false;
 
   @override
   void initState() {
@@ -32,6 +36,40 @@ class _GalleryScreenState extends State<GalleryScreen> {
     } else {
       // Show a message: Permission denied
     }
+  }
+
+  // Asynchronous function that takes the path to a local image file, sends it via HTTP POST to the Flask server, and waits for the response
+  Future<void> sendImageToApi(String imagePath) async {
+    setState(() {
+      _loading = true;
+      _prediction = ''; // clearing the old prediction
+    });
+
+    // creating a POST request
+    final request = http.MultipartRequest(
+      'POST',
+      Uri.parse('http://10.0.2.2:5000/analyze'), // the local host from Android emulator
+    );
+    request.files.add(await http.MultipartFile.fromPath('image', imagePath));
+
+    // sending the request
+    final response = await request.send();
+
+    if (response.statusCode == 200) { // everything went well
+      final responseBody = await response.stream.bytesToString(); // convert byte stream to string
+      final decoded = json.decode(responseBody); // parse JSON
+      setState(() {
+        _prediction = decoded['prediction']; // shows the prediction in UI
+      });
+    } else { // something went wrong
+      setState(() {
+        _prediction = 'Error: ${response.statusCode}';
+      });
+    }
+
+    setState(() {
+      _loading = false;
+    });
   }
 
   @override
