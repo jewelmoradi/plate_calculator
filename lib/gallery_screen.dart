@@ -32,6 +32,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
         setState(() {
           _image = File(pickedFile.path);
         });
+        await sendImageToApi(pickedFile.path);
       }
     } else {
       // Show a message: Permission denied
@@ -76,10 +77,24 @@ class _GalleryScreenState extends State<GalleryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text('Gallery Image')
+          title: Text('Select Image')
       ),
-      body: Center(
-        child: _image != null ? Image.file(_image!) : Text('No image selected'),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            _image != null
+                ? Image.file(_image!, height: 200)
+                : Text('No image selected 😢'),
+            const SizedBox(height: 20,),
+            if (_loading)
+              CircularProgressIndicator()
+            else if (_prediction.isNotEmpty)
+              Text('Prediction: $_prediction', style: TextStyle(fontSize: 18),)
+          ],
+        ),
       ),
     );
   }
