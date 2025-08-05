@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import './gallery_screen.dart';
-import './camera_screen.dart';
+import 'screens/main_menu_screen.dart';
+import 'screens/gallery_screen.dart';
+import 'screens/camera_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -53,7 +54,13 @@ class MyApp extends StatelessWidget {
           contentTextStyle: TextStyle(color: Colors.white),
         ),
       ),
-        home: HomeScreen(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const MainMenuScreen(),
+        '/add-meal/gallery': (context) => const GalleryScreen(),
+        '/add-meal/camara': (context) => const CameraScreen(),
+        //'/history': (context) => const HistoryScreen(),
+      },
     );
   }
 }
