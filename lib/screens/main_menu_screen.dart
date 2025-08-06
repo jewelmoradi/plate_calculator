@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plate_calculator/screens/log-meal-screen.dart';
 
 class MainMenuScreen extends StatelessWidget {
   const MainMenuScreen({super.key});
@@ -23,9 +24,9 @@ class MainMenuScreen extends StatelessWidget {
             children: [
               _buildMenuButton(
                 context,
-                label: 'Add Meal',
+                label: 'Log Meal',
                 onPressed: () {
-                  Navigator.pushNamed(context, '/add-meal');
+                  Navigator.pushNamed(context, '/log-meal');
                 },
               ),
               const SizedBox(height: 20),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'screens/main_menu_screen.dart';
-import 'screens/gallery_screen.dart';
-import 'screens/camera_screen.dart';
+import 'package:plate_calculator/screens/log-meal-screen.dart';
+import 'package:plate_calculator/screens/main_menu_screen.dart';
+import 'package:plate_calculator/screens/gallery_screen.dart';
+import 'package:plate_calculator/screens/camera_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -57,57 +58,12 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const MainMenuScreen(),
-        '/add-meal/gallery': (context) => const GalleryScreen(),
-        '/add-meal/camara': (context) => const CameraScreen(),
+        '/log-meal': (context) => const LogMealScreen(),
+        '/log-meal/gallery': (context) => const GalleryScreen(),
+        '/log-meal/camera': (context) => const CameraScreen(),
         //'/history': (context) => const HistoryScreen(),
+        // '/settings': (context) => const SettingsScreen(),
       },
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  void openGallery(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => GalleryScreen()),
-    );
-  }
-
-  void openCamera(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => CameraScreen()),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Plate Calculator')),
-      body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                textStyle: TextStyle(fontSize: 20),
-              ),
-              onPressed: () => openGallery(context),
-              child: const Text('Select from gallery'),
-            ),
-            SizedBox(width: 20),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                textStyle: TextStyle(fontSize: 20),
-              ),
-              onPressed: () => openCamera(context),
-              child: const Text('Take picture'),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
