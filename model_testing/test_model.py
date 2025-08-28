@@ -1,5 +1,5 @@
 import torch
-from transformers import LlavaNextForConditionalGeneration, LlavaNextProcessor
+from transformers import MllamaForConditionalGeneration, LlavaNextProcessor, BitsAndBytesConfig
 from peft import PeftModel
 from PIL import Image
 import os
@@ -10,11 +10,18 @@ import tkinter as tk
 def load_model():
     """Function to load the trained model"""
 
-    base_model = LlavaNextForConditionalGeneration.from_pretrained(
+    quantization_config = BitsAndBytesConfig(
+        load_in_4bit=True,
+        bnb_4bit_compute_dtype=torch.float16,
+        bnb_4bit_quant_type="nf4"
+    )
+
+    base_model = MllamaForConditionalGeneration.from_pretrained(
         "unsloth/Llama-3.2-11B-Vision-Instruct",
         torch_dtype=torch.float16,
-        device_map="auto",
-        load_in_4bit=True,
+        device_map="cpu",
+        quantization_config=quantization_config,
+        low_cpu_mem_usage=True
     )
 
     processor = LlavaNextProcessor.from_pretrained("unsloth/Llama-3.2-11B-Vision-Instruct")  # Loading processor
@@ -78,26 +85,39 @@ def test_model(model, processor, image_path, question="Analyze the food in this 
 def main():
     model, processor = load_model()
 
-    image_path = select_image()
-    if not image_path:
-        print("No image selected.")
-        return
+    while True:
+        print("\nOptions:")
+        print("1. Select an image file")
+        print("2. Exit")
 
-    question = "Analyze the food in this picture."
+        choice = input("\nChoose an option: ").strip()
 
-    try:
-        print(
-            f"\nAnalyzing image: {os.path.basename(image_path) if not image_path.startswith('http') else image_path}")
-        print(f"Question: {question}")
-        print("-" * 40)
+        if choice == "1":
+            print("Opening file dialog...")
+            image_path = select_image()
+            if not image_path:
+                print("No image selected.")
+                continue
 
-        result = test_model(model, processor, image_path, question)
+        elif choice == "2":
+            print("Goodbye!")
+            break
 
-        print("Model response:")
-        print(result)
+        else:
+            print("Invalid choice.")
+            continue
 
-    except Exception as e:
-        print(f"Error during testing: {e}")
+        question = "Analyze the food in this picture."
+
+        try:
+            result = test_model(model, processor, image_path, question)
+
+            print("Model response:")
+            print(result)
+            print("-" * 40)
+
+        except Exception as e:
+            print(f"Error during testing: {e}")
 
 
 if __name__ == "__main__":
