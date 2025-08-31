@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:plate_calculator/screens/log-meal-screen.dart';
+import 'package:plate_calculator/services/api_service.dart';
 
 class MainMenuScreen extends StatelessWidget {
   const MainMenuScreen({super.key});
@@ -43,6 +43,18 @@ class MainMenuScreen extends StatelessWidget {
                 label: 'Settings',
                 onPressed: () {
                   Navigator.pushNamed(context, '/settings');
+                },
+              ),
+              const SizedBox(height: 20),
+              // Temporary test button
+              _buildMenuButton(
+                context,
+                label: 'Test API',
+                onPressed: () async {
+                  await ApiService.addMeal(
+                    "data:image/jpeg;base64,TEST_IMAGE_DATA", // fake base64
+                    "This is a test meal from MainMenuScreen",
+                  );
                 },
               ),
             ],

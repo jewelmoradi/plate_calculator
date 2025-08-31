@@ -89,6 +89,10 @@ class _GalleryScreenState extends State<GalleryScreen> {
                 ? Image.file(_image!, height: 200)
                 : Text('No image selected 😢'),
             const SizedBox(height: 20,),
+            ElevatedButton(
+                onPressed: pickGalleryImage,
+                child: Text("Pick From Gallery"),
+            ),
             if (_loading)
               CircularProgressIndicator()
             else if (_prediction.isNotEmpty)

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:plate_calculator/screens/log-meal-screen.dart';
+import 'package:plate_calculator/screens/log_meal_screen.dart';
 import 'package:plate_calculator/screens/main_menu_screen.dart';
 import 'package:plate_calculator/screens/gallery_screen.dart';
 import 'package:plate_calculator/screens/camera_screen.dart';
 
 void main() {
+  const api = String.fromEnvironment('API_BASE_URL', defaultValue: 'NOT_SET');
+  print("API_BASE_URL is: $api"); // will be removed in the future
   runApp(const MyApp());
 }
 
@@ -62,7 +64,7 @@ class MyApp extends StatelessWidget {
         '/log-meal/gallery': (context) => const GalleryScreen(),
         '/log-meal/camera': (context) => const CameraScreen(),
         //'/history': (context) => const HistoryScreen(),
-        // '/settings': (context) => const SettingsScreen(),
+        //'/settings': (context) => const SettingsScreen(),
       },
     );
   }

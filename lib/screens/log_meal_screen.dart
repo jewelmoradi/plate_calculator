@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:plate_calculator/screens/gallery_screen.dart';
-import 'package:plate_calculator/screens/camera_screen.dart';
 
 class LogMealScreen extends StatelessWidget {
   const LogMealScreen({super.key});
