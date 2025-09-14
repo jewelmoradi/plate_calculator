@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
+import 'package:plate_calculator/services/api_service.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:convert';
@@ -62,6 +63,11 @@ class _GalleryScreenState extends State<GalleryScreen> {
       setState(() {
         _prediction = decoded['prediction']; // shows the prediction in UI
       });
+
+      // Save to Node backend
+      final bytes = await File(imagePath).readAsBytes();
+      final base64Image = base64Encode(bytes);
+      await ApiService.addMeal("data:image/jpeg;base64,$base64Image", decoded['prediction']);
     } else { // something went wrong
       setState(() {
         _prediction = 'Error: ${response.statusCode}';
