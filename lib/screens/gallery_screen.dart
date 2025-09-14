@@ -21,7 +21,6 @@ class _GalleryScreenState extends State<GalleryScreen> {
   @override
   void initState() {
     super.initState();
-    pickGalleryImage();
   }
 
   // Asynchronous function that waits for the user to select their picture from their device
@@ -36,7 +35,10 @@ class _GalleryScreenState extends State<GalleryScreen> {
         await sendImageToApi(pickedFile.path);
       }
     } else {
-      // Show a message: Permission denied
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Gallery permission denied")),
+      );
     }
   }
 
@@ -60,11 +62,12 @@ class _GalleryScreenState extends State<GalleryScreen> {
     if (response.statusCode == 200) { // everything went well
       final responseBody = await response.stream.bytesToString(); // convert byte stream to string
       final decoded = json.decode(responseBody); // parse JSON
+
       setState(() {
         _prediction = decoded['prediction']; // shows the prediction in UI
       });
 
-      // Save to Node backend
+      // Save meal to Node backend
       final bytes = await File(imagePath).readAsBytes();
       final base64Image = base64Encode(bytes);
       await ApiService.addMeal("data:image/jpeg;base64,$base64Image", decoded['prediction']);
@@ -91,14 +94,19 @@ class _GalleryScreenState extends State<GalleryScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            _image != null
-                ? Image.file(_image!, height: 200)
-                : Text('No image selected 😢'),
-            const SizedBox(height: 20,),
-            ElevatedButton(
-                onPressed: pickGalleryImage,
-                child: Text("Pick From Gallery"),
+            Expanded(
+              child: Center(
+                child: _image != null
+                    ? Image.file(_image!, height: 200)
+                    : Text('No image selected 😢'),
+              ),
             ),
+            const SizedBox(height: 20,),
+            if (!_loading)
+              ElevatedButton(
+                  onPressed: pickGalleryImage,
+                  child: Text("Pick From Gallery"),
+              ),
             if (_loading)
               CircularProgressIndicator()
             else if (_prediction.isNotEmpty)

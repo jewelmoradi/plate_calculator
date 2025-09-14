@@ -89,14 +89,19 @@ class _CameraScreenState extends State<CameraScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            _image != null
-                ? Image.file(_image!, height: 200)
-                : const Text('No image captured 📷'),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: pickCameraImage,
-              child: const Text("Open Camera"),
+            Expanded(
+              child: Center(
+                child: _image != null
+                    ? Image.file(_image!, height: 200)
+                    : const Text('No image captured 📷'),
+                ),
             ),
+            const SizedBox(height: 20),
+            if (!_loading)
+              ElevatedButton(
+                onPressed: pickCameraImage,
+                child: const Text("Open Camera"),
+              ),
             if (_loading)
               const CircularProgressIndicator()
             else if (_prediction.isNotEmpty)
