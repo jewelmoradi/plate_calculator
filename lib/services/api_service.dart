@@ -25,7 +25,7 @@ class ApiService {
       }),
     );
 
-    log("   Response: ${response.statusCode} ${response.body}");
+    log("Response: ${response.statusCode} ${response.body}");
 
     if (response.statusCode == 201) {
       log("Meal added successfully!");

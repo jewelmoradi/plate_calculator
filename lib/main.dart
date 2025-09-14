@@ -3,6 +3,7 @@ import 'package:plate_calculator/screens/log_meal_screen.dart';
 import 'package:plate_calculator/screens/main_menu_screen.dart';
 import 'package:plate_calculator/screens/gallery_screen.dart';
 import 'package:plate_calculator/screens/camera_screen.dart';
+import 'package:plate_calculator/screens/history_screen.dart';
 
 void main() {
   const api = String.fromEnvironment('API_BASE_URL', defaultValue: 'NOT_SET');
@@ -63,7 +64,7 @@ class MyApp extends StatelessWidget {
         '/log-meal': (context) => const LogMealScreen(),
         '/log-meal/gallery': (context) => const GalleryScreen(),
         '/log-meal/camera': (context) => const CameraScreen(),
-        //'/history': (context) => const HistoryScreen(),
+        '/history': (context) => const HistoryScreen(),
         //'/settings': (context) => const SettingsScreen(),
       },
     );

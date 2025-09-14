@@ -32,7 +32,7 @@ class MainMenuScreen extends StatelessWidget {
               const SizedBox(height: 20),
               _buildMenuButton(
                 context,
-                label: 'History',
+                label: 'Meal History',
                 onPressed: () {
                   Navigator.pushNamed(context, '/history');
                 },
@@ -43,18 +43,6 @@ class MainMenuScreen extends StatelessWidget {
                 label: 'Settings',
                 onPressed: () {
                   Navigator.pushNamed(context, '/settings');
-                },
-              ),
-              const SizedBox(height: 20),
-              // Temporary test button
-              _buildMenuButton(
-                context,
-                label: 'Test API',
-                onPressed: () async {
-                  await ApiService.addMeal(
-                    "data:image/jpeg;base64,TEST_IMAGE_DATA", // fake base64
-                    "This is a test meal from MainMenuScreen",
-                  );
                 },
               ),
             ],
