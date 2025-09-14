@@ -8,9 +8,8 @@ const app = express();
 const PORT = 3000;
 
 app.use(cors()); // Allowing Flutter (on another port) to talk to this backend
-app.use(express.json()); // Parsing incoming JSON
-
-app.use(express.json()); // to parse JSON request bodies
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 // Connecting to MongoDB
 mongoose.connect('mongodb://127.0.0.1:27017/plate_calculator_db', {
