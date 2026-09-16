@@ -7,28 +7,31 @@
 
 ## Overview
 
-**AI Food Plate Calorie Estimator** is a cross-platform mobile application built with **Flutter** that uses **machine learning** to estimate the calories of a food item from a photo.  
+**AI Food Plate Calorie Estimator** is a cross-platform mobile application built with **Flutter** that uses a vision-language model to analyze food images and support calorie and nutritional estimation.
 
 The app allows users to:
 - Capture or upload an image of their meal  
-- Send it to a trained AI model (Flask backend) for analysis  
+- Send it to the AI analysis API
 - Receive calorie predictions and store them with timestamps  
 - View their meal history through a connected Node.js & MongoDB backend  
 
-This project demonstrates the integration of **computer vision**, **cloud APIs**, and **mobile development**, aiming to simplify calorie tracking for everyday users.
+This project demonstrates the integration of **computer vision**, **AI model development**, **backend APIs**, and **mobile development**.
 
 ---
 
 ## System Architecture
 
 1. **Flutter Frontend:**  
-   Handles UI, image capture (camera/gallery), and API communication.  
+   Handles UI, image capture (camera/gallery), and API communication.
+
 2. **Flask Backend (Python):**  
-   Hosts the trained food recognition/calorie estimation model.  
-   *(Currently returns mock predictions until the final model is deployed.)*  
-3. **Node.js + MongoDB Backend:**  
-   Stores each analyzed meal (image, AI response, timestamp).  
-   Provides endpoints for fetching and managing user meal history.
+   Provides the API endpoint for image analysis. The current implementation uses mock responses while the trained model is being prepared for integration and deployment.
+
+3. **AI Model:**  
+   A separately developed vision-language model is being fine-tuned and tested for food image analysis. Model experimentation is currently performed independently from the mobile application.
+
+4. **Node.js + MongoDB Backend:**  
+   Stores analyzed meal information and timestamps, and provides endpoints for fetching and managing meal history.
 
 ---
 
@@ -37,10 +40,11 @@ This project demonstrates the integration of **computer vision**, **cloud APIs**
 | Layer | Technology |
 |-------|-------------|
 | Frontend | Flutter (Dart), Image Picker, HTTP, Permission Handler |
-| AI Backend | Python, Flask, TensorFlow / PyTorch (for the final model) |
+| AI / Model Development | Python, PyTorch, Vision-Language Models, Parameter-Efficient Fine-Tuning |
+| AI Backend | Python, Flask |
 | Database Layer | Node.js, Express.js, MongoDB |
 | Data Format | JSON, Base64 Encoded Images |
-| Hosting | Localhost during development (Android emulator) |
+| Development | Google Colab, Android Studio |
 
 ---
 
@@ -48,7 +52,7 @@ This project demonstrates the integration of **computer vision**, **cloud APIs**
 
 - **Camera Integration** — Take a picture of your food.  
 - **Gallery Upload** — Choose an existing image.  
-- **AI Prediction** — Send the image to the Flask API for calorie estimation.  
+- **AI Analysis** — Send the image to the Flask API for food image analysis.
 - **Meal Logging** — Store results in MongoDB via Node.js backend.  
 - **Meal History** — View previous meals with thumbnails, predictions, and timestamps.  
 - **Expandable Meal View** — Tap a meal to see full details in a popup screen.  
@@ -74,15 +78,22 @@ Make sure you have installed:
 │   ├── screens/
 │   │   ├── camera_screen.dart
 │   │   ├── gallery_screen.dart
-│   │   ├── history_screen.dart
+│   │   └── history_screen.dart
 │   └── services/
 │       └── api_service.dart
-├── backend-python/
-│   └── app.py
-├── backend-node/
+├── model_testing/
+│   ├── test_model.py
+│   ├── requirements.txt
+│   └── README.md
+├── python_backend/
+│   ├── app.py
+│   └── requirements.txt
+├── node_backend/
 │   ├── server.js
-│   └── models/
-│       └── meal.js
+│   ├── models/
+│   ├── routes/
+│   ├── package.json
+│   └── package-lock.json
 └── README.md
 </pre>
 
@@ -96,6 +107,6 @@ Bachelor of Computer Engineering
 
 ---
 
-## License
+## Academic Project
 
-This project is developed for academic purposes as part of a Bachelor's degree project.
+This project was originally developed as part of my Bachelor's degree project at Shiraz University of Technology and is continuing as an ongoing academic and personal project.
